@@ -28,6 +28,14 @@ jobs:
         run: |
           curl --proto '=https' --tlsv1.2 --silent --show-error --fail https://just.systems/install.sh | bash -s -- --to ~/.local/bin
 
+      - name: install uv
+        run: |
+          curl --location --silent --show-error --fail https://astral.sh/uv/install.sh | sh
+
+      - name: source cargo env
+        run: |
+          source $HOME/.cargo/env
+
       - name: run test
         run: |
           ~/.local/bin/just test

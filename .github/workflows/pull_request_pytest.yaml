@@ -26,8 +26,8 @@ jobs:
 
       - name: install just
         run: |
-          curl --proto '=https' --tlsv1.2 --silent --show-error --fail https://just.systems/install.sh | bash -s -- --to /bin
+          curl --proto '=https' --tlsv1.2 --silent --show-error --fail https://just.systems/install.sh | bash -s -- --to ~/.local/bin
 
       - name: run test
         run: |
-          just test
+          ~/.local/bin/just test

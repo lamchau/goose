@@ -1,0 +1,52 @@
+name: Links
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+  schedule:
+    # run every weekday at midnight, skip weekends to minimize consecutive
+    # failed issue creations
+    - cron: "0 0 * * 1-5"
+
+env:
+  LYCHEE_CACHE: .lychee-cache
+
+jobs:
+  check-links:
+    runs-on: ubuntu-latest
+    permissions:
+      # required for peter-evans/create-issue-from-file
+      issues: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Restore lychee cache
+        id: restore-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ env.lychee_cache }}
+          key: cache-lychee-${{ github.sha }}
+          restore-keys: cache-lychee-
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          format: markdown
+          output: /tmp/foo.txt
+          token: ${{ secrets.CUSTOM_TOKEN }}
+          fail: false
+
+      - name: Save lychee cache
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: ${{ env.LYCHEE_CACHE }}
+          key: ${{ steps.restore-cache.outputs.cache-primary-key }}
+
+      - name: Create Issue From File
+        if: env.exit_code != 0
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: Link Checker Report
+          content-filepath: ./lychee/out.md

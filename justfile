@@ -24,8 +24,16 @@ coverage *FLAGS:
   uv run coverage report
   uv run coverage lcov -o lcov.info
 
-docs:
+docs: check-links
   uv sync && uv run mkdocs serve
+
+check-links:
+  #!/usr/bin/env bash
+  if command -v lychee; then
+    lychee --config ./lychee.toml --format=detailed --mode=color .
+  else
+    echo "[warning]: lychee not found, skipping link check"
+  fi
 
 install-hooks:
   #!/usr/bin/env bash

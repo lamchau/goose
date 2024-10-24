@@ -201,7 +201,7 @@ Let us know what you think in our [Discussions][discussions] or the [**`#goose`*
 [goose-plugins]: https://github.com/block-open-source/goose-plugins
 
 [pipx]: https://github.com/pypa/pipx?tab=readme-ov-file#install-pipx
-[contributing]: https://github.com/block/goose/blob/main/CONTRIBUTING.md
+[contributing]: https://block.github.io/goose/contributing.html
 [license]: https://github.com/block/goose/blob/main/LICENSE
 
 [goose-docs]: https://block.github.io/goose/
